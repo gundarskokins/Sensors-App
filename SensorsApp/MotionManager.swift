@@ -14,8 +14,14 @@ class MotionManager: ObservableObject {
     private let motionManager = CMMotionManager()
     
     var error: Error?
-    var updateInterval: TimeInterval = 1/60
-
+    
+    var updateInterval: Double = 1/60 {
+        didSet(newValue) {
+            motionManager.magnetometerUpdateInterval = newValue
+            motionManager.deviceMotionUpdateInterval = newValue
+        }
+    }
+    @Published var showError = false
     @Published var gyroValues = RotationModel()
     @Published var accelerationValues = AccelerationModel()
     @Published var magneticFieldValues = MagneticFieldModel()
@@ -51,6 +57,7 @@ class MotionManager: ObservableObject {
                                                                 gravityY: data.gravity.y,
                                                                 gravityZ: data.gravity.z)
                 case .failure(let error):
+                    self.showError = true
                     self.error = error
             }
         }
@@ -64,6 +71,7 @@ class MotionManager: ObservableObject {
                                                                   magneticFieldY: data.magneticField.y,
                                                                   magneticFieldZ: data.magneticField.z)
                 case .failure(let error):
+                    self.showError = true
                     self.error = error
             }
         }

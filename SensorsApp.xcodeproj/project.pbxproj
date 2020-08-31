@@ -15,7 +15,6 @@
 		7C3730BB24F8FF670071BD2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C3730B924F8FF670071BD2A /* LaunchScreen.storyboard */; };
 		7C3730C424F90E040071BD2A /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3730C324F90E040071BD2A /* MotionManager.swift */; };
 		7C3730C624FD020E0071BD2A /* MotionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3730C524FD020E0071BD2A /* MotionError.swift */; };
-		7C3730C824FD06100071BD2A /* DeviceMotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3730C724FD06100071BD2A /* DeviceMotionManager.swift */; };
 		7C6A851824FD3E370020BCF6 /* RotationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A851724FD3E370020BCF6 /* RotationModel.swift */; };
 		7C6A851A24FD3E5A0020BCF6 /* AccelerationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A851924FD3E5A0020BCF6 /* AccelerationModel.swift */; };
 		7C6A851C24FD3FF50020BCF6 /* MagneticFieldModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A851B24FD3FF50020BCF6 /* MagneticFieldModel.swift */; };
@@ -33,7 +32,6 @@
 		7C3730BC24F8FF670071BD2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C3730C324F90E040071BD2A /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		7C3730C524FD020E0071BD2A /* MotionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionError.swift; sourceTree = "<group>"; };
-		7C3730C724FD06100071BD2A /* DeviceMotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMotionManager.swift; sourceTree = "<group>"; };
 		7C6A851724FD3E370020BCF6 /* RotationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationModel.swift; sourceTree = "<group>"; };
 		7C6A851924FD3E5A0020BCF6 /* AccelerationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccelerationModel.swift; sourceTree = "<group>"; };
 		7C6A851B24FD3FF50020BCF6 /* MagneticFieldModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagneticFieldModel.swift; sourceTree = "<group>"; };
@@ -79,7 +77,6 @@
 				7C3730C324F90E040071BD2A /* MotionManager.swift */,
 				7C6A851624FD3E130020BCF6 /* Models */,
 				7C3730C524FD020E0071BD2A /* MotionError.swift */,
-				7C3730C724FD06100071BD2A /* DeviceMotionManager.swift */,
 				7C3730B624F8FF670071BD2A /* Preview Content */,
 			);
 			path = SensorsApp;
@@ -192,7 +189,6 @@
 				7C3730C424F90E040071BD2A /* MotionManager.swift in Sources */,
 				7C6A851A24FD3E5A0020BCF6 /* AccelerationModel.swift in Sources */,
 				7C6A851824FD3E370020BCF6 /* RotationModel.swift in Sources */,
-				7C3730C824FD06100071BD2A /* DeviceMotionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

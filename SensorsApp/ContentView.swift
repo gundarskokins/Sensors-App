@@ -15,6 +15,12 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
+                VStack(alignment: .leading) {
+                    Text("Change update interval")
+                    Slider(value: $motionManager.updateInterval, in: -1...1, step: 0.005)
+                }
+                .padding()
+                
                 Form {
                     Section(header: Text("Gyro values")) {
                         VStack(alignment: .leading) {
@@ -78,10 +84,16 @@ struct ContentView: View {
                         }
                     }
                 }
-            .padding()
+                .padding()
                 
             }
             .navigationBarTitle("Motion sensor info")
+            .alert(isPresented: self.$motionManager.showError) {
+                if let error = motionManager.error {
+                    return Alert(title: Text("Ooops.."), message: Text(error.localizedDescription), dismissButton: .default(Text("OK")))
+                }
+                return Alert(title: Text("Ooops.."), message: Text("Something went wrong"), dismissButton: .default(Text("OK")))
+            }
         }
     }
 }
