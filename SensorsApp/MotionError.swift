@@ -10,16 +10,13 @@ import Foundation
 
 enum MotionError: Error {
     case motionError(String)
-    case motionManagerError
 }
 
 extension MotionError {
     var localizedDescription: String {
         switch self {
             case .motionError(let type):
-                return "Unknown error occurred while obtaining \(type) value"
-            case .motionManagerError:
-                return "Unknown error occurred while obtaining device motion values"
+                return "Unknown error occurred while obtaining \(type) values"
         }
     }
 }

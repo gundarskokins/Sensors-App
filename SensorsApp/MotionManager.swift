@@ -14,87 +14,75 @@ class MotionManager: ObservableObject {
     private let motionManager = CMMotionManager()
     
     var error: Error?
-    @Published var rotationValues = RotationValues()
-    @Published var accelerationValues: (gravity: CMAcceleration, userAcceleration: CMAcceleration)?
-    @Published var magneticFieldValues: CMCalibratedMagneticField?
+    var updateInterval: TimeInterval = 1/60
+
+    @Published var gyroValues = RotationModel()
+    @Published var accelerationValues = AccelerationModel()
+    @Published var magneticFieldValues = MagneticFieldModel()
     
     enum MotionType: String {
-        case accelerometer
-        case gyro
+        case accelerometerAndGyro = "accelerometer and gyro"
         case magnetometer
     }
 
     init() {
-        //Set update intervals to 60fps
-        motionManager.gyroUpdateInterval = 1/60
-        motionManager.magnetometerUpdateInterval = 1/60
-        motionManager.accelerometerUpdateInterval = 1/60
+        motionManager.magnetometerUpdateInterval = updateInterval
+        motionManager.deviceMotionUpdateInterval = updateInterval
+    }
+    
+    func startMotionManager() {
+        motionManager.showsDeviceMovementDisplay = true
 
         motionManager.startDeviceMotionUpdates(to: .main) { (data, error) in
-            guard let data = data else {
-                if let error = error {
+            let result = self.getMotionResult(data: data, error: error, type: .accelerometerAndGyro)
+            switch result {
+                case .success(let data):
+                    self.gyroValues = RotationModel(pitch: data.attitude.pitch,
+                                                    roll: data.attitude.roll,
+                                                    yaw: data.attitude.yaw,
+                                                    rotationRateX: data.rotationRate.x,
+                                                    rotationRateY: data.rotationRate.y,
+                                                    rotationRateZ: data.rotationRate.z)
+                    
+                    self.accelerationValues = AccelerationModel(userAccelerationX: data.userAcceleration.x,
+                                                                userAccelerationY: data.userAcceleration.y,
+                                                                userAccelerationZ: data.userAcceleration.z,
+                                                                gravityX: data.gravity.x,
+                                                                gravityY: data.gravity.y,
+                                                                gravityZ: data.gravity.z)
+                case .failure(let error):
                     self.error = error
-                    return
-                }
-                
-                self.error = MotionError.motionManagerError
-                return
             }
-            
-            
-
-            self.rotationValues = RotationValues(pitch: data.attitude.pitch,
-                                                 roll: data.attitude.roll,
-                                                 yaw: data.attitude.yaw,
-                                                 rotationRateX: data.rotationRate.x,
-                                                 rotationRateY: data.rotationRate.y,
-                                                 rotationRateZ: data.rotationRate.z)
-            self.accelerationValues = (data.gravity, data.userAcceleration)
-            self.magneticFieldValues = data.magneticField
+        }
+        
+        // Magnetometer not working called from startDeviceMotionUpdates function
+        motionManager.startMagnetometerUpdates(to: .main) { (data, error) in
+            let result = self.getMotionResult(data: data, error: error, type: .magnetometer)
+            switch result {
+                case .success(let data):
+                    self.magneticFieldValues = MagneticFieldModel(magneticFieldX: data.magneticField.x,
+                                                                  magneticFieldY: data.magneticField.y,
+                                                                  magneticFieldZ: data.magneticField.z)
+                case .failure(let error):
+                    self.error = error
+            }
         }
     }
-}
-
-struct RotationValues {
-    var pitch = 0.0
-    var roll = 0.0
-    var yaw = 0.0
     
-    var rotationRateX = 0.0
-    var rotationRateY = 0.0
-    var rotationRateZ = 0.0
-
+    func getMotionResult<T>(data: T?, error: Error?, type: MotionType) -> Result<T, Error> {
+        guard let data = data else {
+            if let error = error {
+                return .failure(error)
+            }
+            
+            return .failure(MotionError.motionError(type.rawValue))
+        }
+        
+        return .success(data)
+    }
+    
+    func stopMotionManager() {
+        motionManager.stopDeviceMotionUpdates()
+        motionManager.stopMagnetometerUpdates()
+    }
 }
-
-
-//class MotionManager: ObservableObject {
-//
-//    private var motionManager: CMMotionManager
-//
-//    @Published
-//    var x: Double = 0.0
-//    @Published
-//    var y: Double = 0.0
-//    @Published
-//    var z: Double = 0.0
-//
-//
-//    init() {
-//        self.motionManager = CMMotionManager()
-//        self.motionManager.magnetometerUpdateInterval = 1/60
-//        self.motionManager.startMagnetometerUpdates(to: .main) { (magnetometerData, error) in
-//            guard error == nil else {
-//                print(error!)
-//                return
-//            }
-//
-//            if let magnetData = magnetometerData {
-//                self.x = magnetData.magneticField.x
-//                self.y = magnetData.magneticField.y
-//                self.z = magnetData.magneticField.z
-//            }
-//
-//        }
-//
-//    }
-//}
