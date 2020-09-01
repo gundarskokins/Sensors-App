@@ -11,11 +11,16 @@ import CoreMotion
 import Combine
 
 class MotionManager: ObservableObject {
+    enum MotionType: String {
+        case accelerometerAndGyro = "accelerometer and gyro"
+        case magnetometer
+    }
+
     private let motionManager = CMMotionManager()
     
     var error: Error?
     
-    var updateInterval: Double = 1/60 {
+    var updateInterval: Double = 1/15 {
         didSet(newValue) {
             motionManager.magnetometerUpdateInterval = newValue
             motionManager.deviceMotionUpdateInterval = newValue
@@ -26,11 +31,6 @@ class MotionManager: ObservableObject {
     @Published var accelerationValues = AccelerationModel()
     @Published var magneticFieldValues = MagneticFieldModel()
     
-    enum MotionType: String {
-        case accelerometerAndGyro = "accelerometer and gyro"
-        case magnetometer
-    }
-
     init() {
         motionManager.magnetometerUpdateInterval = updateInterval
         motionManager.deviceMotionUpdateInterval = updateInterval

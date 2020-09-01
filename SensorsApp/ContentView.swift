@@ -17,7 +17,7 @@ struct ContentView: View {
             VStack {
                 VStack(alignment: .leading) {
                     Text("Change update interval")
-                    Slider(value: $motionManager.updateInterval, in: -1...1, step: 0.005)
+                    Slider(value: $motionManager.updateInterval, in: 1/60...1/8, step: 1/1000)
                 }
                 .padding()
                 
