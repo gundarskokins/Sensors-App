@@ -21,9 +21,9 @@ class MotionManager: ObservableObject {
     var error: Error?
     
     var updateInterval: Double = 1/15 {
-        didSet(newValue) {
-            motionManager.magnetometerUpdateInterval = newValue
-            motionManager.deviceMotionUpdateInterval = newValue
+        didSet {
+            motionManager.magnetometerUpdateInterval = updateInterval
+            motionManager.deviceMotionUpdateInterval = updateInterval
         }
     }
     @Published var showError = false
